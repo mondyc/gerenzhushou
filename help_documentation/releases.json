@@ -1,0 +1,25 @@
+{
+  "currentRelease": "1.2.32",
+  "releases": [
+    {
+      "version": "1.2.31",
+      "updateTo": {
+        "version": "1.2.31",
+        "pub_date": "2025-12-25T00:00:00+08:00",
+        "notes": "旧版本",
+        "name": "1.2.31",
+        "url": "http://10.32.41.228:39080/di-assistant/releases/1.2.31"
+      }
+    },
+    {
+      "version": "1.2.32",
+      "updateTo": {
+        "version": "1.2.32",
+        "pub_date": "2025-12-29T00:00:00+08:00",
+        "notes": "新版本",
+        "name": "1.2.32",
+        "url": "http://10.32.41.228:39080/di-assistant/releases/1.2.32"
+      }
+    }
+  ]
+}
