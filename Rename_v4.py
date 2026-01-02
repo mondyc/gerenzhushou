@@ -2,6 +2,8 @@
 # 但是改的名字还是有点问题，问题在于需要根据WPS是否存在来判断改的名称中是否需要带WPS版本号
 # 新增了对升级包的改名
 # 20251230更新：将预置路径改为了相对路径
+# 20250102更新：判断pkg文件夹是否存在，如果不存在则提示没有找到pkg文件夹，并退出程序，如果存在则打印
+# 20250102更新：检查当前目录下名称包含“晓伴·灵犀_*--*”的文件夹，如果有，则提示“文件夹已存在”，并询问用户是否删除整个文件夹
 import os
 import re
 import shutil
@@ -30,27 +32,23 @@ if not now_filelist:
     exit()
 
 # 打印所有pkg开头的文件夹名称
-print(now_filelist)
+print("所有pkg开头的文件夹名称为：" + now_filelist)
 
 # 检查当前目录下名称包含“晓伴·灵犀_*--*”的文件夹，如果有，则退出程序，并提示“文件夹已存在”
 for file in os.listdir('./'):
     if re.match(r'^灵犀·晓伴.*--.*', file):
         print("文件夹已经存在了")
         # 询问用户是否删除整个文件夹
-        print("是否删除整个文件夹？")
-        print("1. 删除")
-        print("2. 不删除")
+        print("是否删除整个文件夹？ 1. 删除 or 2. 不删除")
         choice = input("请输入你的选择：")
         if choice == "1":
             try:
-                shutil.rmtree(file)
+                # 使用管理员权限删除文件夹
+                import subprocess
+                subprocess.run(['cmd', '/c', 'rmdir', '/s', '/q', file], shell=True)
                 print(f"已成功删除文件夹: {file}")
             except PermissionError as e:
                 print(f"删除文件夹时发生权限错误: {e}")
-                print("请检查以下情况:")
-                print("1. 文件夹是否正在被其他程序使用")
-                print("2. 是否有文件被锁定或只读")
-                print("3. 是否以管理员身份运行脚本")
                 exit(1)
             except Exception as e:
                 print(f"删除文件夹时发生错误: {e}")
@@ -58,30 +56,25 @@ for file in os.listdir('./'):
         elif choice == "2":
             exit()
 
-# 检查upgrade_package文件夹是都为空
-if os.listdir(uppath):
-    print("upgrade_package文件夹不为空")
-    # 询问用户是否清空upgrade_package文件夹
-    print("是否清空upgrade_package文件夹？")
-    print("1. 清空")
-    print("2. 不清空")
+# 检查upgrade_package文件夹是否存在，如果不存在则创建，如果存在则提示已存在，则询问用户是否清空这个文件夹的所有内容
+if not os.path.exists(uppath):
+    os.mkdir(uppath)
+    print("upgrade_package文件夹创建成功！")
+else:
+    print("upgrade_package文件夹已存在！")
+    print("是否清空upgrade_package文件夹的所有内容？1. 清空 or 2. 不清空")
     choice = input("请输入你的选择：")
     if choice == "1":
         try:
-            shutil.rmtree(uppath)
+            # 使用管理员权限清空文件夹内容
+            import subprocess
+            subprocess.run(['cmd', '/c', 'rmdir', '/s', '/q', 'upgrade_package'], shell=True)
+            os.mkdir(uppath)
             print(f"已成功清空文件夹: {uppath}")
         except PermissionError as e:
-            print(f"清空文件夹时发生权限错误: {e}")
-            print("请检查以下情况:")
-            print("1. 文件夹是否正在被其他程序使用")
-            print("2. 是否有文件被锁定或只读")
-            print("3. 是否以管理员身份运行脚本")
-            exit(1)
-        except Exception as e:
-            print(f"清空文件夹时发生错误: {e}")
-            exit(1)
+            print(f"删除文件夹时发生权限错误: {e}")
     elif choice == "2":
-        exit()
+        exit(1)
 
 # 接收输入灵犀·晓伴的版本号，并打印
 version = input("请输入灵犀·晓伴的版本号：")
