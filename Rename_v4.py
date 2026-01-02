@@ -32,7 +32,7 @@ if not now_filelist:
     exit()
 
 # 打印所有pkg开头的文件夹名称
-print("所有pkg开头的文件夹名称为：" + now_filelist)
+print("所有pkg开头的文件夹名称为：" + str(now_filelist))
 
 # 检查当前目录下名称包含“晓伴·灵犀_*--*”的文件夹，如果有，则退出程序，并提示“文件夹已存在”
 for file in os.listdir('./'):
