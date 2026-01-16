@@ -3,7 +3,7 @@
 # 新增了对升级包的改名
 # 20251230更新：将预置路径改为了相对路径
 # 20250102更新：判断pkg文件夹是否存在，如果不存在则提示没有找到pkg文件夹，并退出程序，如果存在则打印
-# 20250102更新：检查当前目录下名称包含“晓伴·灵犀_*--*”的文件夹，如果有，则提示“文件夹已存在”，并询问用户是否删除整个文件夹
+# 20250102更新：检查当前目录下名称包含“灵犀·晓伴_*--*”的文件夹，如果有，则提示“文件夹已存在”，并询问用户是否删除整个文件夹
 import os
 import re
 import shutil
@@ -34,7 +34,7 @@ if not now_filelist:
 # 打印所有pkg开头的文件夹名称
 print("所有pkg开头的文件夹名称为：" + str(now_filelist))
 
-# 检查当前目录下名称包含“晓伴·灵犀_*--*”的文件夹，如果有，则退出程序，并提示“文件夹已存在”
+# 检查当前目录下名称包含“灵犀·晓伴_*--*”的文件夹，如果有，则退出程序，并提示“文件夹已存在”
 for file in os.listdir('./'):
     if re.match(r'^灵犀·晓伴.*--.*', file):
         print("文件夹已经存在了")
@@ -205,6 +205,9 @@ shutil.copy(os.path.join(helppath, "国产电脑使用苏晓伴说明.docx"), os
 
 # 将help_documentation路径下“releases.json”文件，复制到uppath路径下
 shutil.copy(os.path.join(helppath, "releases.json"), os.path.join(uppath, "releases.json"))
+
+
+
 
 
 
